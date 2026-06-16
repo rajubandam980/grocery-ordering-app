@@ -30,5 +30,26 @@ public class ProductService {
 		return productRepo.findById(id).orElse(null);
 
 	}
+	
+	public Product updateProduct(Long id, Product updateProduct) {
+		Product existingProduct = productRepo.findById(id).orElse(null);
+		
+		if(existingProduct == null) {
+			return null;
+		}
+		existingProduct.setName(updateProduct.getName());
+		existingProduct.setDescription(updateProduct.getDescription());
+		existingProduct.setPrice(updateProduct.getPrice());
+	    existingProduct.setStock(updateProduct.getStock());
+	    existingProduct.setCategory(updateProduct.getCategory());
+	    existingProduct.setImageUrl(updateProduct.getImageUrl());
+	    
+	    return productRepo.save(existingProduct);
+		
+	}
+	
+	public void deleteProduct(Long id) {
+		productRepo.deleteById(id);
+	}
 
 }
