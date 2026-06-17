@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.grocery.grocery_backend.entity.Product;
 import com.grocery.grocery_backend.service.ProductService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -29,7 +31,7 @@ public class ProductController {
 	}
 	
 	@PostMapping
-	public Product addProduct(@RequestBody Product product) {
+	public Product addProduct(@Valid @RequestBody Product product) {
 		return productService.addProduct(product);
 		
 	}
@@ -39,7 +41,7 @@ public class ProductController {
 		return productService.getProductByid(id);
 	}
 	@PutMapping("/{id}")
-	public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+	public Product updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
 		return productService.updateProduct(id, product);
 	}
 	

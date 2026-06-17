@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grocery.grocery_backend.entity.Product;
+import com.grocery.grocery_backend.exception.ProductNotFoundException;
 import com.grocery.grocery_backend.repository.ProductRepository;
 
 @Service
@@ -27,7 +28,9 @@ public class ProductService {
 	}
 	
 	public Product getProductByid(Long id) {
-		return productRepo.findById(id).orElse(null);
+		
+		return productRepo.findById(id).orElseThrow(() ->
+			new ProductNotFoundException("product not found with id"+id));
 
 	}
 	
@@ -49,7 +52,10 @@ public class ProductService {
 	}
 	
 	public void deleteProduct(Long id) {
-		productRepo.deleteById(id);
+		Product product = productRepo.findById(id).orElseThrow(() ->
+		new ProductNotFoundException("Product not found"));
+		
+		productRepo.delete(product);
 	}
 
 }

@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "product")
@@ -14,9 +17,12 @@ public class Product {
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 
+		@NotBlank(message = "Product name is required")
 	    private String name;
 	    private String description;
+	    @Positive(message = "Price must be greater than zero")
 	    private Double price;
+	    @PositiveOrZero(message = "Stock cannot be negative")
 	    private Integer stock;
 	    private String category;
 	    private String imageUrl;
