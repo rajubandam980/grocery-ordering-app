@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.grocery.grocery_backend.dto.ProductDTO;
 import com.grocery.grocery_backend.entity.Product;
 import com.grocery.grocery_backend.exception.ProductNotFoundException;
 import com.grocery.grocery_backend.repository.ProductRepository;
@@ -18,8 +19,8 @@ public class ProductService {
 	
 	List<Product> products  = new ArrayList<>();
 	
-	public List<Product> getAllProducts(){
-		return productRepo.findAll();
+	public List<ProductDTO> getAllProducts(){
+		return productRepo.findAll().stream().map(this::convertToDTO).toList();
 	}
 	
 	public Product addProduct(Product product) {
@@ -27,11 +28,13 @@ public class ProductService {
 
 	}
 	
-	public Product getProductByid(Long id) {
+	public ProductDTO getProductByid(Long id) {
 		
-		return productRepo.findById(id).orElseThrow(() ->
-			new ProductNotFoundException("product not found with id"+id));
-
+		Product product = productRepo.findById(id).orElseThrow(()->
+		new ProductNotFoundException("Product not Found"));
+		
+		return convertToDTO(product);
+		
 	}
 	
 	public Product updateProduct(Long id, Product updateProduct) {
@@ -56,6 +59,14 @@ public class ProductService {
 		new ProductNotFoundException("Product not found"));
 		
 		productRepo.delete(product);
+	}
+	
+	private ProductDTO convertToDTO(Product product) {
+		return new ProductDTO(product.getId(),
+				product.getName(),
+				product.getPrice(),
+				product.getCategory()
+				);
 	}
 
 }

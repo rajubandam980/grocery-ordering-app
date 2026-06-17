@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grocery.grocery_backend.dto.ProductDTO;
 import com.grocery.grocery_backend.entity.Product;
 import com.grocery.grocery_backend.service.ProductService;
 
@@ -26,7 +27,7 @@ public class ProductController {
 	private ProductService productService;
 	
 	@GetMapping
-	public List<Product> getAllProducts(){
+	public List<ProductDTO> getAllProducts(){
 		return productService.getAllProducts();
 	}
 	
@@ -37,7 +38,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/{id}")
-	public Product getProductByid(@PathVariable Long id) {
+	public ProductDTO getProductByid(@PathVariable Long id) {
 		return productService.getProductByid(id);
 	}
 	@PutMapping("/{id}")
