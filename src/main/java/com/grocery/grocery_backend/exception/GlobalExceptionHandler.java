@@ -36,5 +36,29 @@ public class GlobalExceptionHandler {
 
         return errors;
     }
+    
+    public Map<String ,String > handleUserExists(UserAlreadyExistsException ex){
+    	
+    	Map<String, String> error = new HashMap<>();
+    	error.put("message", ex.getMessage());
+    	return error;
+    	
+    }
+    @ExceptionHandler(
+            InvalidCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Map<String, String>
+    handleInvalidCredentials(
+            InvalidCredentialsException ex) {
+
+        Map<String, String> error =
+                new HashMap<>();
+
+        error.put("message", ex.getMessage());
+
+        return error;
+    }
+    
+    
 
 }
