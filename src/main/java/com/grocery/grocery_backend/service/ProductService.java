@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.grocery.grocery_backend.dto.ProductDTO;
@@ -67,6 +70,21 @@ public class ProductService {
 				product.getPrice(),
 				product.getCategory()
 				);
+	}
+	
+	public List<ProductDTO> searchProduct(String name){
+		return productRepo.findByNameContainingIgnoreCase(name).stream().map(this::convertToDTO).toList();
+	}
+	
+	public List<ProductDTO> searchCetagory(String catagory){
+		return productRepo.findByCategoryIgnoreCase(catagory).stream().map(this::convertToDTO).toList();
+	}
+	
+	public List<ProductDTO> getProducts(int page, int size){
+		Page<Product> productPage = productRepo.findAll(PageRequest.of(page, size));
+		
+		return productPage.getContent().stream().map(this::convertToDTO).toList();
+		
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grocery.grocery_backend.dto.ProductDTO;
@@ -51,6 +52,20 @@ public class ProductController {
 		productService.deleteProduct(id);
 		
 		return "Product Sucessfully Deleted";
+	}
+	@RequestMapping("/search")
+	public List<ProductDTO> searchProduct(@RequestParam String name){
+		return productService.searchProduct(name);
+		
+	}
+	@RequestMapping("/category/{category}")
+	public List<ProductDTO> searchCategory(@PathVariable String category){
+		return productService.searchCetagory(category);
+	}
+	
+	@RequestMapping("/paged")
+	public List<ProductDTO> getProductPaged(@RequestParam int page, @RequestParam int size){
+		return productService.getProducts(page, size);
 	}
 }
 	
