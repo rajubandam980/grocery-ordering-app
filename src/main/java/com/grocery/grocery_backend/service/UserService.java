@@ -9,15 +9,18 @@ import com.grocery.grocery_backend.entity.User;
 import com.grocery.grocery_backend.exception.InvalidCredentialsException;
 import com.grocery.grocery_backend.exception.UserAlreadyExistsException;
 import com.grocery.grocery_backend.repository.UserRepository;
+import com.grocery.grocery_backend.security.JwtService;
 
 @Service
 public class UserService {
 	
 	private final UserRepository userRepo;
+	private final JwtService jwtService;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     
-    public UserService(UserRepository userRepo) {
+    public UserService(UserRepository userRepo, JwtService jwtService) {
     	this.userRepo = userRepo;
+    	this.jwtService = jwtService;
     }
     public String register(RegisterRequest request) {
     	if(userRepo.findByemail(request.getEmail()).isPresent()) {
@@ -50,13 +53,16 @@ public class UserService {
             throw new InvalidCredentialsException(
                     "Invalid email or password");
         }
+        String token =
+                jwtService.generateToken(
+                        user.getEmail());
 
         return new LoginResponse(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getRole(),
-                "Login successful"
+                token
         );
     }
     

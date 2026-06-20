@@ -6,7 +6,7 @@ public class LoginResponse {
     private String name;
     private String email;
     private String role;
-    private String message;
+    private String token;
 
     public LoginResponse() {
     }
@@ -15,13 +15,13 @@ public class LoginResponse {
                          String name,
                          String email,
                          String role,
-                         String message) {
+                         String token) {
 
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.role = role;
-        this.message = message;
+        this.token = token;
     }
 
 	public Long getUserId() {
@@ -56,13 +56,14 @@ public class LoginResponse {
 		this.role = role;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getToken() {
+		return token;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setToken(String token) {
+		this.token = token;
 	}
+	
     
 
 }
